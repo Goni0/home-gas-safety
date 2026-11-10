@@ -1392,7 +1392,7 @@ makeImage();
 (function(){
   if(!/github\.io$/.test(location.hostname)) return;
   setTimeout(function(){
-    fetch("https://homegas.goatcounter.com/counter/TOTAL.json").then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
+    fetch("https://homegas.goatcounter.com/counter/TOTAL.json?start=2026-11-01",{cache:"no-store"}).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
       if(!d || !d.count) return;
       document.getElementById("visitCount").textContent=d.count;
       document.getElementById("visits").hidden=false;
