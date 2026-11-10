@@ -356,6 +356,8 @@ section.top{margin-top:8px}
 .sbtn:focus-visible{outline:3px solid var(--kgs-blue);outline-offset:2px}
 .sbtns{display:flex;flex-wrap:wrap;gap:6px}
 #qr{width:88px;height:88px;flex:none;background:#FFFFFF;border-radius:8px;border:1px solid var(--line)}
+.visits{margin:0;text-align:center;font-size:14px;color:var(--muted)}
+.visits b{color:var(--ink);font-variant-numeric:tabular-nums}
 .minishare{font:inherit;font-size:13px;font-weight:700;color:var(--flame);background:none;border:0;padding:0;cursor:pointer;width:fit-content;text-decoration:underline;text-underline-offset:3px}
 #share{scroll-margin-top:12px}
 .sgap{display:block;height:0}
@@ -952,6 +954,7 @@ svg[aria-label^="도시가스가"] .art-arrow,svg[aria-label^="도시가스가"]
       <input id="shareUrl" readonly value="https://goni0.github.io/home-gas-safety/" aria-label="우리집 가스안전 배치도 링크" hidden>
     </div>
   </div>
+  <p class="visits" id="visits" hidden>지금까지 <b id="visitCount"></b>번 방문했어요</p>
 </section>
 
 </div>
@@ -1380,6 +1383,21 @@ fitSvgToScreen();
 
 setMode(store.get("gasmap-mode"));
 makeImage();
+})();
+</script>
+<!-- 방문자 집계: GoatCounter (쿠키·개인정보 수집 없음). 관리 화면: https://homegas.goatcounter.com -->
+<script data-goatcounter="https://homegas.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+// 누적 방문 수 표시: GoatCounter 설정에서 "Allow adding visitor counts on your website"를 켜야 보여요. 꺼져 있으면 아무것도 안 나와요.
+(function(){
+  if(!/github\.io$/.test(location.hostname)) return;
+  setTimeout(function(){
+    fetch("https://homegas.goatcounter.com/counter/TOTAL.json").then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
+      if(!d || !d.count) return;
+      document.getElementById("visitCount").textContent=d.count;
+      document.getElementById("visits").hidden=false;
+    }).catch(function(){});
+  },1500);
 })();
 </script>
 
